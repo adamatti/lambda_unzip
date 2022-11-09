@@ -7,7 +7,7 @@ DOWNLOAD_FOLDER=tmp/s3-download
 
 .PHONY: help
 help: ## show this help
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z_0-9-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 clean: ## remove generated files
 	@rm -rf node_modules
@@ -52,13 +52,13 @@ build: lint ## package the node/lambda project
 tf-lint: ## lint tf files
 	@cd terraform;tflint
 
-tf-apply: ## apply terraform changes (need to approve)
+tf-apply: build ## apply terraform changes (need to approve)
 	@cd terraform/;terraform apply
 
-tf-apply-approve: ## apply terraform changes with auto approve
+tf-apply-approve: build ## apply terraform changes with auto approve
 	@cd terraform/;terraform apply -auto-approve
 
-tf-destroy-approve: s3-rm ## destroy terraform creation
+tf-destroy-approve: s3-rm build ## destroy terraform creation
 	@cd terraform/;terraform destroy -auto-approve
 
 test-prepare: s3-rm s3-ls build tf-apply-approve ## prepate test (e.g. remove test files, build lambda, deploy)
