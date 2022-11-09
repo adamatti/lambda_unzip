@@ -1,0 +1,13 @@
+{
+    "licence": "UNLICENSED",
+    "scripts": {
+        "lint": "eslint src/*"
+    },
+    "dependencies": {
+        "s3-unzip": "^0.1.13"
+    },
+    "devDependencies": {
+        "eslint": "^8.27.0",
+        "eslint-config-google": "^0.14.0"
+    }
+}
